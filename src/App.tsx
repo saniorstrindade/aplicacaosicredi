@@ -16,13 +16,14 @@ interface Profile {
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const profiles = [
     {
       id: 1,
-      name: "Jurema Silva",
-      role: "Desenvolvedora Frontend",
-      photo: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+      name: "Sânio  Trindade",
+      role: "Desenvolvedor Frontend",
+      photo: "/imagens/sanio.jpeg",
       technical: 85,
       emotional: 92,
       organizational: 78,
@@ -31,9 +32,9 @@ const App = () => {
     },
     {
       id: 2,
-      name: "Carlos Mendes",
+      name: "felipe Briguente",
       role: "Analista de Dados",
-      photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      photo: "/imagens/felipe.jpeg",
       technical: 90,
       emotional: 75,
       organizational: 88,
@@ -42,9 +43,20 @@ const App = () => {
     },
     {
       id: 3,
-      name: "Marina Costa",
+      name: "Jamily Silva",
       role: "Gerente de Projetos",
-      photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+      photo: "/imagens/jamily.jpeg",
+      technical: 70,
+      emotional: 95,
+      organizational: 93,
+      tags: ["Validado em ambiente real - InnovaCorp", "Feedback 360° completo"],
+      evidences: ["Gestão de equipe 15 pessoas", "Projeto entregue no prazo", "Certificação PMP"]
+    },
+    {
+      id: 4,
+      name: "Lucas Fernandes ",
+      role: "Gerente de Projetos",
+      photo: "/imagens/lucas.jpeg",
       technical: 70,
       emotional: 95,
       organizational: 93,
@@ -74,14 +86,21 @@ const App = () => {
       type: "Organizacional",
       description: "Organize um cronograma de projeto com recursos limitados",
       duration: "1.5 horas"
+    },
+    {
+      id: 4,
+      title: "Planejamento Estratégico",
+      type: "Organizacional",
+      description: "Organize um cronograma de projeto com recursos limitados",
+      duration: "1.5 horas"
     }
   ];
 
   const VectraLogo = () => (
     <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setCurrentPage('home')}>
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg p-2">
-        <BarChart3 className="w-6 h-6 text-white" />
-      </div>
+      <div className="rounded-lg">
+  <img src="/imagens/minha-logo.jpeg" alt="Logo" className="w-10 h-10 object-contain" />
+</div>
       <div className="flex flex-col">
         <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
           Vectra
@@ -209,11 +228,15 @@ const App = () => {
     >
       <div className="flex items-center mb-6">
         <div className="relative">
-          <img 
-            className="w-16 h-16 rounded-full object-cover ring-2 ring-gray-100 group-hover:ring-blue-200 transition-all duration-300" 
-            src={profile.photo} 
-            alt={profile.name} 
-          />
+        <img 
+  className="w-16 h-16 rounded-full object-cover ring-2 ring-gray-100 group-hover:ring-blue-200 transition-all duration-300 cursor-pointer" 
+  src={profile.photo} 
+  alt={profile.name}
+  onClick={(e) => {
+    e.stopPropagation();
+    setSelectedImage(profile.photo);
+  }}
+/>    
           <div className="absolute -bottom-1 -right-1 bg-green-500 w-5 h-5 rounded-full border-2 border-white" />
         </div>
         <div className="ml-4 flex-1">
@@ -437,7 +460,12 @@ const App = () => {
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6 text-white">
             <div className="flex items-center">
-              <img className="w-24 h-24 rounded-full object-cover border-4 border-white" src={selectedProfile.photo} alt={selectedProfile.name} />
+            <img 
+  className="w-24 h-24 rounded-full object-cover border-4 border-white cursor-pointer hover:opacity-90 transition-opacity" 
+  src={selectedProfile.photo} 
+  alt={selectedProfile.name}
+  onClick={() => setSelectedImage(selectedProfile.photo)}
+/>
               <div className="ml-6">
                 <h1 className="text-3xl font-bold">{selectedProfile.name}</h1>
                 <p className="text-blue-100 text-lg">{selectedProfile.role}</p>
@@ -681,15 +709,53 @@ const App = () => {
       <Navbar />
       {renderPage()}
       <ContactButtons />
+  {selectedImage && (
+    <div
+      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+      onClick={() => setSelectedImage(null)}
+    >
+      <div
+        className="relative max-w-4xl max-h-screen bg-white rounded-lg overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex">
+          <div className="flex-1">
+            <img
+              src={selectedImage}
+              alt="Foto ampliada"
+              className="w-full h-96 object-cover"
+            />
+          </div>
+          <div className="flex-1 p-6 overflow-y-auto max-h-96">
+            {profiles.find(p => p.photo === selectedImage) && (
+              <div>
+                <h2 className="text-2xl font-bold mb-2">
+                  {profiles.find(p => p.photo === selectedImage)?.name}
+                </h2>
+                ...
+              </div>
+            )}
+          </div>
+        </div>
+        <button
+          onClick={() => setSelectedImage(null)}
+          className="absolute top-4 right-4 bg-white rounded-full p-2 text-gray-800 hover:bg-gray-100"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  )}
+  
       
       <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             <div className="md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg p-2">
-                  <BarChart3 className="w-6 h-6 text-white" />
-                </div>
+              <div className="rounded-lg">
+  <img src="/imagens/minha-logo.jpeg" alt="Logo" className="w-6 h-6 object-contain" />
+</div>
                 <div className="flex flex-col">
                   <span className="text-xl font-bold text-white">Vectra</span>
                   <span className="text-xs text-gray-400 -mt-1">Platform</span>
@@ -725,7 +791,7 @@ const App = () => {
                 <li><button onClick={() => setCurrentPage('profiles')} className="hover:text-white transition-colors">Talentos</button></li>
                 <li><button onClick={() => setCurrentPage('challenges')} className="hover:text-white transition-colors">Desafios</button></li>
                 <li><button onClick={() => setCurrentPage('dashboard')} className="hover:text-white transition-colors">Dashboard</button></li>
-                <li><a href="#" className="hover:text-white transition-colors">Empresas</a></li>
+                <button className="hover:text-white transition-colors text-left">Empresas</button>
               </ul>
             </div>
             
