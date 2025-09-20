@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Award, BarChart3, Users, Search, Star, TrendingUp, Heart, Building } from 'lucide-react';
+import { Award, BarChart3, Users, Search, Star, TrendingUp, Heart, Building, MessageCircle, Instagram, Mail, Phone } from 'lucide-react';
 
 interface Profile {
   id: number;
@@ -17,11 +17,10 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
 
-  // Dados mockados
   const profiles = [
     {
       id: 1,
-      name: "jurema Silva",
+      name: "Jurema Silva",
       role: "Desenvolvedora Frontend",
       photo: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
       technical: 85,
@@ -78,37 +77,96 @@ const App = () => {
     }
   ];
 
-  // Componentes
+  const VectraLogo = () => (
+    <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setCurrentPage('home')}>
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg p-2">
+        <BarChart3 className="w-6 h-6 text-white" />
+      </div>
+      <div className="flex flex-col">
+        <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          Vectra
+        </span>
+        <span className="text-xs text-gray-500 -mt-1">Platform</span>
+      </div>
+    </div>
+  );
+
+  const ContactButtons = () => (
+    <div className="fixed bottom-4 right-4 flex flex-col space-y-3 z-50">
+      <button
+        onClick={() => window.open('https://wa.me/5532999999999?text=Olá! Gostaria de saber mais sobre a plataforma Vectra', '_blank')}
+        className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group"
+        title="WhatsApp"
+      >
+        <MessageCircle className="w-6 h-6 group-hover:animate-pulse" />
+      </button>
+      <button
+        onClick={() => window.open('https://instagram.com/vectraplatform', '_blank')}
+        className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group"
+        title="Instagram"
+      >
+        <Instagram className="w-6 h-6 group-hover:animate-pulse" />
+      </button>
+    </div>
+  );
+
   const Navbar = () => (
-    <nav className="bg-white shadow-sm border-b">
+    <nav className="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <div className="text-2xl font-bold text-blue-600"  onClick={() => setCurrentPage('home')}>Vectra</div>
-            <div className="ml-4 text-sm text-gray-500">Você não precisa dizer quem é. É só mostrar.</div>
+          <div className="flex items-center space-x-4">
+            <VectraLogo />
+            <div className="hidden md:block h-6 w-px bg-gray-300"></div>
+            <div className="hidden md:block text-sm text-gray-600 font-medium">
+              Você não precisa dizer quem é. É só mostrar.
+            </div>
           </div>
-          <div className="flex space-x-8">
+          <div className="hidden md:flex items-center space-x-1">
+          <div className="md:hidden">
+  <button 
+    onClick={() => setCurrentPage(currentPage === 'home' ? 'profiles' : 'home')}
+    className="p-2 rounded-lg text-gray-600"
+  >
+    <Users className="w-6 h-6" />
+  </button>
+</div>
             <button 
               onClick={() => setCurrentPage('home')}
-              className={`px-3 py-2 text-sm font-medium ${currentPage === 'home' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                currentPage === 'home' 
+                  ? 'bg-blue-100 text-blue-700 shadow-sm' 
+                  : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'
+              }`}
             >
               Início
             </button>
             <button 
               onClick={() => setCurrentPage('profiles')}
-              className={`px-3 py-2 text-sm font-medium ${currentPage === 'profiles' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                currentPage === 'profiles' 
+                  ? 'bg-blue-100 text-blue-700 shadow-sm' 
+                  : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'
+              }`}
             >
-              Colaboradores
+              Talentos
             </button>
             <button 
               onClick={() => setCurrentPage('challenges')}
-              className={`px-3 py-2 text-sm font-medium ${currentPage === 'challenges' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                currentPage === 'challenges' 
+                  ? 'bg-blue-100 text-blue-700 shadow-sm' 
+                  : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'
+              }`}
             >
               Desafios
             </button>
             <button 
               onClick={() => setCurrentPage('dashboard')}
-              className={`px-3 py-2 text-sm font-medium ${currentPage === 'dashboard' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                currentPage === 'dashboard' 
+                  ? 'bg-blue-100 text-blue-700 shadow-sm' 
+                  : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'
+              }`}
             >
               Dashboard
             </button>
@@ -118,124 +176,248 @@ const App = () => {
     </nav>
   );
 
-  const SkillBar = ({ label, value, color = "blue" }: { label: string; value: number; color?: string }) => (
-    <div className="mb-4">
-      <div className="flex justify-between mb-1">
-        <span className="text-sm font-medium text-gray-700">{label}</span>
-        <span className="text-sm text-gray-500">{value}%</span>
+  const SkillBar = ({ label, value, color = "blue" }: { label: string; value: number; color?: string }) => {
+    const getColorClass = (colorName: string) => {
+      const colors: { [key: string]: string } = {
+        blue: 'bg-blue-500',
+        green: 'bg-emerald-500',
+        purple: 'bg-purple-500'
+      };
+      return colors[colorName] || 'bg-blue-500';
+    };
+
+    return (
+      <div className="mb-4">
+        <div className="flex justify-between mb-2">
+          <span className="text-sm font-semibold text-gray-700">{label}</span>
+          <span className="text-sm font-bold text-gray-900">{value}%</span>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+          <div 
+            className={`${getColorClass(color)} h-2.5 rounded-full transition-all duration-700 ease-out shadow-sm`} 
+            style={{width: `${value}%`}}
+          />
+        </div>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
-        <div 
-          className={`bg-${color}-600 h-2 rounded-full transition-all duration-300`} 
-          style={{width: `${value}%`}}
-        ></div>
-      </div>
-    </div>
-  );
+    );
+  };
 
   const ProfileCard = ({ profile, onClick }: { profile: Profile; onClick: (profile: Profile) => void }) => (
     <div 
-      className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 p-6 cursor-pointer transform hover:scale-105"
+      className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 p-6 cursor-pointer transform hover:-translate-y-1 border border-gray-100 hover:border-blue-200"
       onClick={() => onClick(profile)}
     >
-      <div className="flex items-center mb-4">
-        <img className="w-16 h-16 rounded-full object-cover" src={profile.photo} alt={profile.name} />
-        <div className="ml-4">
-          <h3 className="text-lg font-semibold text-gray-800">{profile.name}</h3>
-          <p className="text-gray-600">{profile.role}</p>
+      <div className="flex items-center mb-6">
+        <div className="relative">
+          <img 
+            className="w-16 h-16 rounded-full object-cover ring-2 ring-gray-100 group-hover:ring-blue-200 transition-all duration-300" 
+            src={profile.photo} 
+            alt={profile.name} 
+          />
+          <div className="absolute -bottom-1 -right-1 bg-green-500 w-5 h-5 rounded-full border-2 border-white" />
         </div>
+        <div className="ml-4 flex-1">
+          <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-700 transition-colors">
+            {profile.name}
+          </h3>
+          <p className="text-gray-600 font-medium">{profile.role}</p>
+        </div>
+        <Star className="w-5 h-5 text-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>
       
-      <div className="space-y-2 mb-4">
+      <div className="space-y-3 mb-5">
         <SkillBar label="Técnico" value={profile.technical} color="blue" />
         <SkillBar label="Emocional" value={profile.emotional} color="green" />
         <SkillBar label="Organizacional" value={profile.organizational} color="purple" />
       </div>
 
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap gap-2">
         {profile.tags.slice(0, 2).map((tag: string, idx: number) => (
-          <span key={idx} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+          <span 
+            key={idx} 
+            className="px-3 py-1 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 text-xs font-medium rounded-full border border-blue-200"
+          >
             {tag}
           </span>
         ))}
+        {profile.tags.length > 2 && (
+          <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+            +{profile.tags.length - 2} mais
+          </span>
+        )}
       </div>
     </div>
   );
 
-  // Páginas
   const HomePage = () => (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <div className="mb-8">
-          <h1 className="text-5xl font-bold text-gray-800 mb-4">
-            Você não precisa dizer quem é.
-          </h1>
-          <h2 className="text-3xl font-light text-blue-600 mb-8">
-            É só mostrar.
-          </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Plataforma de contratação e engajamento baseada em competências reais. 
-            Substitua o currículo por um Passaporte de Competências conquistado através de evidências.
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" />
+        <div className="absolute top-40 right-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" />
+        <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" />
+      </div>
+
+      <div className="relative max-w-6xl mx-auto px-4 py-20">
+        <div className="text-center mb-16">
+          <div className="mb-8">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-gray-900 mb-6 leading-tight">
+              Você não precisa 
+              <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                dizer quem é
+              </span>
+            </h1>
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-600 mb-8">
+              É só mostrar. ✨
+            </h2>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+              A primeira plataforma que substitui currículos por <strong>evidências reais</strong>. 
+              Conecte talentos e oportunidades através de competências validadas.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <button 
+              onClick={() => setCurrentPage('profiles')}
+              className="group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl text-lg font-bold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            >
+              <span className="flex items-center justify-center">
+                Explorar Talentos 
+                <TrendingUp className="ml-2 w-5 h-5 group-hover:animate-bounce" />
+              </span>
+            </button>
+            <button 
+              onClick={() => setCurrentPage('challenges')}
+              className="group bg-white text-gray-800 px-8 py-4 rounded-xl text-lg font-bold hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg border-2 border-gray-200 hover:border-blue-300"
+            >
+              <span className="flex items-center justify-center">
+                Ver Desafios
+                <Award className="ml-2 w-5 h-5 group-hover:animate-pulse" />
+              </span>
+            </button>
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <Award className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Passaporte de Competências</h3>
-            <p className="text-gray-600">Documento automático e inviolável baseado em mérito e evidências reais</p>
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="group bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/50">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Award className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold mb-4 text-gray-900">Passaporte de Competências</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Documento automático e inviolável baseado em mérito e evidências reais de desempenho
+            </p>
           </div>
           
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <BarChart3 className="w-12 h-12 text-green-600 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Avaliação 360°</h3>
-            <p className="text-gray-600">Competências técnicas, emocionais e organizacionais validadas</p>
+          <div className="group bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/50">
+            <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <BarChart3 className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold mb-4 text-gray-900">Avaliação 360°</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Competências técnicas, emocionais e organizacionais validadas por desafios práticos
+            </p>
           </div>
           
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <Users className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Match Inteligente</h3>
-            <p className="text-gray-600">Conexão automática entre talentos e oportunidades por aderência real</p>
+          <div className="group bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/50">
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Users className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold mb-4 text-gray-900">Match Inteligente</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Conexão automática entre talentos e oportunidades com +85% de aderência
+            </p>
           </div>
         </div>
 
-        <button 
-          onClick={() => setCurrentPage('profiles')}
-          className="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors duration-300"
-        >
-          Explorar Talentos
-        </button>
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/50">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8 text-center">
+            <div>
+              <div className="text-3xl font-bold text-blue-600 mb-2">500+</div>
+              <div className="text-gray-600 font-medium">Talentos Validados</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-emerald-600 mb-2">98%</div>
+              <div className="text-gray-600 font-medium">Taxa de Sucesso</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-purple-600 mb-2">150+</div>
+              <div className="text-gray-600 font-medium">Empresas Parceiras</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-pink-600 mb-2">24h</div>
+              <div className="text-gray-600 font-medium">Tempo Médio Match</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 
   const ProfilesPage = () => (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">Colaboradores</h1>
-        <div className="flex items-center space-x-4">
-          <div className="relative">
-            <Search className="w-5 h-5 absolute left-3 top-3 text-gray-400" />
-            <input 
-              type="text" 
-              placeholder="Buscar por competências..." 
-              className="pl-10 pr-4 py-2 border rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 space-y-4 lg:space-y-0">
+            <div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">Nossos Talentos</h1>
+              <p className="text-gray-600 text-lg">Profissionais validados pela plataforma Vectra</p>
+            </div>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 w-full lg:w-auto">
+              <div className="relative">
+                <Search className="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input 
+                  type="text" 
+                  placeholder="Buscar por competências ou cargo..." 
+                  className="pl-12 pr-4 py-3 border border-gray-200 rounded-xl w-full sm:w-80 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm"
+                />
+              </div>
+              <select className="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm">
+                <option>Todos os níveis</option>
+                <option>Júnior</option>
+                <option>Pleno</option>
+                <option>Sênior</option>
+              </select>
+            </div>
+          </div>
+          
+          <div className="flex flex-wrap gap-3 mb-8">
+            {['Desenvolvimento', 'Design', 'Marketing', 'Vendas', 'Gestão'].map((skill) => (
+              <button 
+                key={skill}
+                className="px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 text-sm font-medium"
+              >
+                {skill}
+              </button>
+            ))}
           </div>
         </div>
-      </div>
 
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6">
-        {profiles.map(profile => (
-          <ProfileCard 
-            key={profile.id} 
-            profile={profile} 
-            onClick={(p: Profile) => {
-              setSelectedProfile(p);
-              setCurrentPage('profile-detail');
-            }} 
-          />
-        ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {profiles.map(profile => (
+            <ProfileCard 
+              key={profile.id} 
+              profile={profile} 
+              onClick={(p: Profile) => {
+                setSelectedProfile(p);
+                setCurrentPage('profile-detail');
+              }} 
+            />
+          ))}
+        </div>
+
+        <div className="flex justify-center mt-12">
+          <div className="flex space-x-2">
+            <button className="px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+              Anterior
+            </button>
+            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg">1</button>
+            <button className="px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">2</button>
+            <button className="px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">3</button>
+            <button className="px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+              Próximo
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -271,7 +453,7 @@ const App = () => {
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <h2 className="text-xl font-semibold mb-4">Competências</h2>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <SkillBar label="Técnico" value={selectedProfile.technical} color="blue" />
                   <SkillBar label="Emocional" value={selectedProfile.emotional} color="green" />
                   <SkillBar label="Organizacional" value={selectedProfile.organizational} color="purple" />
@@ -308,36 +490,98 @@ const App = () => {
   };
 
   const ChallengesPage = () => (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Desafios Públicos</h1>
-      
-      <div className="grid lg:grid-cols-3 gap-6">
-        {challenges.map(challenge => (
-          <div key={challenge.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
-            <div className="flex items-center mb-4">
-              {challenge.type === 'Técnico' && <BarChart3 className="w-8 h-8 text-blue-600 mr-3" />}
-              {challenge.type === 'Emocional' && <Heart className="w-8 h-8 text-green-600 mr-3" />}
-              {challenge.type === 'Organizacional' && <Building className="w-8 h-8 text-purple-600 mr-3" />}
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                challenge.type === 'Técnico' ? 'bg-blue-100 text-blue-800' :
-                challenge.type === 'Emocional' ? 'bg-green-100 text-green-800' :
-                'bg-purple-100 text-purple-800'
-              }`}>
-                {challenge.type}
-              </span>
-            </div>
-            
-            <h3 className="text-lg font-semibold mb-2">{challenge.title}</h3>
-            <p className="text-gray-600 mb-4">{challenge.description}</p>
-            
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-500">Duração: {challenge.duration}</span>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Iniciar
-              </button>
-            </div>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-6xl mx-auto px-4 py-6">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Desafios Públicos Vectra</h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Prove suas competências através de desafios práticos e alimente seu Passaporte de Competências
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-12">
+          <div className="bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+            <div className="text-3xl font-bold text-blue-600 mb-2">1,250+</div>
+            <div className="text-gray-600">Desafios Concluídos</div>
           </div>
-        ))}
+          <div className="bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+            <div className="text-3xl font-bold text-emerald-600 mb-2">95%</div>
+            <div className="text-gray-600">Taxa de Satisfação</div>
+          </div>
+          <div className="bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+            <div className="text-3xl font-bold text-purple-600 mb-2">45min</div>
+            <div className="text-gray-600">Tempo Médio</div>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {challenges.map(challenge => (
+            <div key={challenge.id} className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200">
+              <div className={`h-2 ${
+                challenge.type === 'Técnico' ? 'bg-gradient-to-r from-blue-500 to-blue-600' :
+                challenge.type === 'Emocional' ? 'bg-gradient-to-r from-emerald-500 to-emerald-600' :
+                'bg-gradient-to-r from-purple-500 to-purple-600'
+              }`} />
+              
+              <div className="p-8">
+                <div className="flex items-center mb-6">
+                  <div className={`p-3 rounded-xl ${
+                    challenge.type === 'Técnico' ? 'bg-blue-100' :
+                    challenge.type === 'Emocional' ? 'bg-emerald-100' :
+                    'bg-purple-100'
+                  }`}>
+                    {challenge.type === 'Técnico' && <BarChart3 className="w-8 h-8 text-blue-600" />}
+                    {challenge.type === 'Emocional' && <Heart className="w-8 h-8 text-emerald-600" />}
+                    {challenge.type === 'Organizacional' && <Building className="w-8 h-8 text-purple-600" />}
+                  </div>
+                  <div className="ml-4">
+                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                      challenge.type === 'Técnico' ? 'bg-blue-100 text-blue-700' :
+                      challenge.type === 'Emocional' ? 'bg-emerald-100 text-emerald-700' :
+                      'bg-purple-100 text-purple-700'
+                    }`}>
+                      {challenge.type}
+                    </span>
+                  </div>
+                </div>
+                
+                <h3 className="text-xl font-bold mb-4 text-gray-900 group-hover:text-blue-700 transition-colors">
+                  {challenge.title}
+                </h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">{challenge.description}</p>
+                
+                <div className="flex justify-between items-center mb-6">
+                  <div className="flex items-center text-sm text-gray-500">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2" />
+                    Duração: {challenge.duration}
+                  </div>
+                  <div className="flex items-center text-sm text-gray-500">
+                    <Star className="w-4 h-4 mr-1" />
+                    4.8/5.0
+                  </div>
+                </div>
+                
+                <button className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform group-hover:scale-105 ${
+                  challenge.type === 'Técnico' 
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-blue-200' 
+                    : challenge.type === 'Emocional' 
+                    ? 'bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-emerald-200'
+                    : 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-purple-200'
+                } shadow-lg`}>
+                  Iniciar Desafio
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-center text-white">
+          <h2 className="text-2xl font-bold mb-4">Pronto para construir seu Passaporte?</h2>
+          <p className="text-blue-100 mb-6">Complete desafios e comprove suas competências com evidências reais</p>
+          <button className="bg-white text-blue-600 px-8 py-3 rounded-xl font-bold hover:bg-gray-100 transition-colors">
+            Ver Todos os Desafios
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -346,7 +590,7 @@ const App = () => {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-8">Dashboard Empresarial</h1>
       
-      <div className="grid lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <div className="flex items-center">
             <TrendingUp className="w-8 h-8 text-blue-600" />
@@ -392,7 +636,7 @@ const App = () => {
         <h2 className="text-xl font-semibold mb-4">Equipe Overview</h2>
         <div className="space-y-4">
           {profiles.map(profile => (
-            <div key={profile.id} className="flex items-center justify-between p-4 border rounded-lg">
+            <div key={profile.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg space-y-3 sm:space-y-0">
               <div className="flex items-center">
                 <img className="w-10 h-10 rounded-full object-cover" src={profile.photo} alt={profile.name} />
                 <div className="ml-3">
@@ -400,11 +644,11 @@ const App = () => {
                   <p className="text-sm text-gray-600">{profile.role}</p>
                 </div>
               </div>
-              <div className="flex space-x-4">
-                <div className="text-center">
-                  <p className="text-lg font-bold text-blue-600">{profile.technical}%</p>
-                  <p className="text-xs text-gray-500">Técnico</p>
-                </div>
+              <div className="flex justify-center sm:justify-end space-x-6">
+              <div className="text-center">
+  <p className="text-base sm:text-lg font-bold text-blue-600">{profile.technical}%</p>
+  <p className="text-xs text-gray-500">Técnico</p>
+</div>
                 <div className="text-center">
                   <p className="text-lg font-bold text-green-600">{profile.emotional}%</p>
                   <p className="text-xs text-gray-500">Emocional</p>
@@ -421,7 +665,6 @@ const App = () => {
     </div>
   );
 
-  // Renderização principal
   const renderPage = () => {
     switch(currentPage) {
       case 'home': return <HomePage />;
@@ -437,6 +680,90 @@ const App = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       {renderPage()}
+      <ContactButtons />
+      
+      <footer className="bg-gray-900 text-white py-16">
+        <div className="max-w-6xl mx-auto px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            <div className="md:col-span-2">
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg p-2">
+                  <BarChart3 className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xl font-bold text-white">Vectra</span>
+                  <span className="text-xs text-gray-400 -mt-1">Platform</span>
+                </div>
+              </div>
+              <p className="text-gray-400 mb-6 max-w-md leading-relaxed">
+                A primeira plataforma que conecta talentos e oportunidades através de competências reais e validadas.
+              </p>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => window.open('https://wa.me/5532999999999', '_blank')}
+                  className="bg-green-600 hover:bg-green-700 p-3 rounded-lg transition-colors"
+                  title="WhatsApp"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => window.open('https://instagram.com/vectraplatform', '_blank')}
+                  className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 p-3 rounded-lg transition-colors"
+                  title="Instagram"
+                >
+                  <Instagram className="w-5 h-5" />
+                </button>
+                <button className="bg-blue-600 hover:bg-blue-700 p-3 rounded-lg transition-colors">
+                  <Mail className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Plataforma</h3>
+              <ul className="space-y-3 text-gray-400">
+                <li><button onClick={() => setCurrentPage('profiles')} className="hover:text-white transition-colors">Talentos</button></li>
+                <li><button onClick={() => setCurrentPage('challenges')} className="hover:text-white transition-colors">Desafios</button></li>
+                <li><button onClick={() => setCurrentPage('dashboard')} className="hover:text-white transition-colors">Dashboard</button></li>
+                <li><a href="#" className="hover:text-white transition-colors">Empresas</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Contato</h3>
+              <ul className="space-y-3 text-gray-400">
+                <li className="flex items-center">
+                  <Mail className="w-4 h-4 mr-2" />
+                  contato@vectra.com.br
+                </li>
+                <li className="flex items-center">
+                  <Phone className="w-4 h-4 mr-2" />
+                  (32) 99999-9999
+                </li>
+                <li className="flex items-center">
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  WhatsApp
+                </li>
+                <li className="flex items-center">
+                  <Instagram className="w-4 h-4 mr-2" />
+                  @vectraplatform
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 pt-8 mt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <p className="text-gray-400 text-sm">
+                © 2024 Vectra Platform. Todos os direitos reservados.
+              </p>
+              <p className="text-gray-400 text-sm mt-4 md:mt-0">
+                "Você não precisa dizer quem é. É só mostrar."
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
