@@ -132,7 +132,7 @@ const App = () => {
   const ContactButtons = () => (
     <div className="fixed bottom-4 right-4 flex flex-col space-y-3 z-50">
       <button
-        onClick={() => window.open('https://wa.me/5532999999999?text=Olá! Gostaria de saber mais sobre a plataforma Vectra', '_blank')}
+        onClick={() => window.open('https://wa.me/5532991569811?text=Olá! Gostaria de saber mais sobre a plataforma Vectra', '_blank')}
         className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group"
         title="WhatsApp"
       >
@@ -886,7 +886,7 @@ const App = () => {
               </p>
               <div className="flex space-x-4">
                 <button
-                  onClick={() => window.open('https://wa.me/5532999999999', '_blank')}
+                  onClick={() => window.open('https://wa.me/5532991569811', '_blank')}
                   className="bg-green-600 hover:bg-green-700 p-3 rounded-lg transition-colors"
                   title="WhatsApp"
                 >
