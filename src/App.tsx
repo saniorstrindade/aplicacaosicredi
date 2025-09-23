@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Award, BarChart3, Users, Search, Star, TrendingUp, Heart, Building, MessageCircle, Instagram, Mail, Phone } from 'lucide-react';
 
 interface Profile {
@@ -17,11 +17,27 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [levelFilter, setLevelFilter] = useState('Todos os níveis');
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      if (path === '/') setCurrentPage('home');
+      else if (path === '/profiles') setCurrentPage('profiles');
+      else if (path === '/profile-detail') setCurrentPage('profile-detail');
+      else if (path === '/challenges') setCurrentPage('challenges');
+      else if (path === '/dashboard') setCurrentPage('dashboard');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const profiles = [
     {
       id: 1,
-      name: "Sânio  Trindade",
+      name: "Sânio Trindade",
       role: "Desenvolvedor Frontend",
       photo: "/imagens/sanio.jpeg",
       technical: 85,
@@ -32,7 +48,7 @@ const App = () => {
     },
     {
       id: 2,
-      name: "felipe Briguente",
+      name: "Felipe Briguente",
       role: "Analista de Dados",
       photo: "/imagens/felipe.jpeg",
       technical: 90,
@@ -54,7 +70,7 @@ const App = () => {
     },
     {
       id: 4,
-      name: "Lucas Fernandes ",
+      name: "Lucas Fernandes",
       role: "Gerente de Projetos",
       photo: "/imagens/lucas.jpeg",
       technical: 70,
@@ -89,18 +105,21 @@ const App = () => {
     },
     {
       id: 4,
-      title: "Planejamento Estratégico",
+      title: "Gestão de Recursos",
       type: "Organizacional",
-      description: "Organize um cronograma de projeto com recursos limitados",
-      duration: "1.5 horas"
+      description: "Otimize a alocação de recursos em um projeto multi-equipes",
+      duration: "2.5 horas"
     }
   ];
 
   const VectraLogo = () => (
-    <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setCurrentPage('home')}>
+    <div className="flex items-center space-x-2 cursor-pointer" onClick={() => {
+      setCurrentPage('home');
+      window.history.pushState({}, '', '/');
+    }}>
       <div className="rounded-lg">
-  <img src="/imagens/minha-logo.jpeg" alt="Logo" className="w-10 h-10 object-contain" />
-</div>
+        <img src="/imagens/minha-logo.jpeg" alt="Logo" className="w-10 h-10 object-contain" />
+      </div>
       <div className="flex flex-col">
         <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
           Vectra
@@ -140,17 +159,13 @@ const App = () => {
               Você não precisa dizer quem é. É só mostrar.
             </div>
           </div>
+          
           <div className="hidden md:flex items-center space-x-1">
-          <div className="md:hidden">
-  <button 
-    onClick={() => setCurrentPage(currentPage === 'home' ? 'profiles' : 'home')}
-    className="p-2 rounded-lg text-gray-600"
-  >
-    <Users className="w-6 h-6" />
-  </button>
-</div>
             <button 
-              onClick={() => setCurrentPage('home')}
+              onClick={() => {
+                setCurrentPage('home');
+                window.history.pushState({}, '', '/');
+              }}
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                 currentPage === 'home' 
                   ? 'bg-blue-100 text-blue-700 shadow-sm' 
@@ -160,7 +175,10 @@ const App = () => {
               Início
             </button>
             <button 
-              onClick={() => setCurrentPage('profiles')}
+              onClick={() => {
+                setCurrentPage('profiles');
+                window.history.pushState({}, '', '/profiles');
+              }}
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                 currentPage === 'profiles' 
                   ? 'bg-blue-100 text-blue-700 shadow-sm' 
@@ -170,7 +188,10 @@ const App = () => {
               Talentos
             </button>
             <button 
-              onClick={() => setCurrentPage('challenges')}
+              onClick={() => {
+                setCurrentPage('challenges');
+                window.history.pushState({}, '', '/challenges');
+              }}
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                 currentPage === 'challenges' 
                   ? 'bg-blue-100 text-blue-700 shadow-sm' 
@@ -180,7 +201,10 @@ const App = () => {
               Desafios
             </button>
             <button 
-              onClick={() => setCurrentPage('dashboard')}
+              onClick={() => {
+                setCurrentPage('dashboard');
+                window.history.pushState({}, '', '/dashboard');
+              }}
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                 currentPage === 'dashboard' 
                   ? 'bg-blue-100 text-blue-700 shadow-sm' 
@@ -188,6 +212,15 @@ const App = () => {
               }`}
             >
               Dashboard
+            </button>
+          </div>
+
+          <div className="md:hidden">
+            <button 
+              onClick={() => setCurrentPage(currentPage === 'home' ? 'profiles' : 'home')}
+              className="p-2 rounded-lg text-gray-600"
+            >
+              <Users className="w-6 h-6" />
             </button>
           </div>
         </div>
@@ -228,15 +261,15 @@ const App = () => {
     >
       <div className="flex items-center mb-6">
         <div className="relative">
-        <img 
-  className="w-16 h-16 rounded-full object-cover ring-2 ring-gray-100 group-hover:ring-blue-200 transition-all duration-300 cursor-pointer" 
-  src={profile.photo} 
-  alt={profile.name}
-  onClick={(e) => {
-    e.stopPropagation();
-    setSelectedImage(profile.photo);
-  }}
-/>    
+          <img 
+            className="w-16 h-16 rounded-full object-cover ring-2 ring-gray-100 group-hover:ring-blue-200 transition-all duration-300 cursor-pointer" 
+            src={profile.photo} 
+            alt={profile.name}
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImage(profile.photo);
+            }}
+          />    
           <div className="absolute -bottom-1 -right-1 bg-green-500 w-5 h-5 rounded-full border-2 border-white" />
         </div>
         <div className="ml-4 flex-1">
@@ -245,7 +278,21 @@ const App = () => {
           </h3>
           <p className="text-gray-600 font-medium">{profile.role}</p>
         </div>
-        <Star className="w-5 h-5 text-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <Star 
+          className={`w-5 h-5 transition-all cursor-pointer ${
+            favorites.includes(profile.id) 
+              ? 'text-yellow-500 opacity-100 fill-current' 
+              : 'text-yellow-500 opacity-0 group-hover:opacity-100 hover:opacity-100'
+          }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            setFavorites(prev => 
+              prev.includes(profile.id) 
+                ? prev.filter(id => id !== profile.id)
+                : [...prev, profile.id]
+            );
+          }}
+        />
       </div>
       
       <div className="space-y-3 mb-5">
@@ -283,7 +330,7 @@ const App = () => {
       <div className="relative max-w-6xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <div className="mb-8">
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-gray-900 mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-gray-900 mb-6 leading-tight">
               Você não precisa 
               <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 dizer quem é
@@ -300,7 +347,10 @@ const App = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <button 
-              onClick={() => setCurrentPage('profiles')}
+              onClick={() => {
+                setCurrentPage('profiles');
+                window.history.pushState({}, '', '/profiles');
+              }}
               className="group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl text-lg font-bold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
               <span className="flex items-center justify-center">
@@ -309,7 +359,10 @@ const App = () => {
               </span>
             </button>
             <button 
-              onClick={() => setCurrentPage('challenges')}
+              onClick={() => {
+                setCurrentPage('challenges');
+                window.history.pushState({}, '', '/challenges');
+              }}
               className="group bg-white text-gray-800 px-8 py-4 rounded-xl text-lg font-bold hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg border-2 border-gray-200 hover:border-blue-300"
             >
               <span className="flex items-center justify-center">
@@ -353,7 +406,7 @@ const App = () => {
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/50">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8 text-center">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8 text-center">
             <div>
               <div className="text-3xl font-bold text-blue-600 mb-2">500+</div>
               <div className="text-gray-600 font-medium">Talentos Validados</div>
@@ -380,7 +433,7 @@ const App = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 space-y-4 lg:space-y-0">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 space-y-4 lg:space-y-0">
             <div>
               <h1 className="text-4xl font-bold text-gray-900 mb-2">Nossos Talentos</h1>
               <p className="text-gray-600 text-lg">Profissionais validados pela plataforma Vectra</p>
@@ -391,10 +444,16 @@ const App = () => {
                 <input 
                   type="text" 
                   placeholder="Buscar por competências ou cargo..." 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-12 pr-4 py-3 border border-gray-200 rounded-xl w-full sm:w-80 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm"
                 />
               </div>
-              <select className="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm">
+              <select 
+                value={levelFilter}
+                onChange={(e) => setLevelFilter(e.target.value)}
+                className="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm"
+              >
                 <option>Todos os níveis</option>
                 <option>Júnior</option>
                 <option>Pleno</option>
@@ -416,16 +475,22 @@ const App = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {profiles.map(profile => (
-            <ProfileCard 
-              key={profile.id} 
-              profile={profile} 
-              onClick={(p: Profile) => {
-                setSelectedProfile(p);
-                setCurrentPage('profile-detail');
-              }} 
-            />
-          ))}
+          {profiles
+            .filter(profile => 
+              profile.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+              profile.role.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .map(profile => (
+              <ProfileCard 
+                key={profile.id} 
+                profile={profile} 
+                onClick={(p: Profile) => {
+                  setSelectedProfile(p);
+                  setCurrentPage('profile-detail');
+                  window.history.pushState({}, '', '/profile-detail');
+                }}
+              />
+            ))}
         </div>
 
         <div className="flex justify-center mt-12">
@@ -451,26 +516,43 @@ const App = () => {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <button 
-          onClick={() => setCurrentPage('profiles')}
-          className="mb-6 text-blue-600 hover:text-blue-800"
+          onClick={() => {
+            setCurrentPage('profiles');
+            window.history.pushState({}, '', '/profiles');
+            setSelectedProfile(null);
+          }}
+          className="mb-6 text-blue-600 hover:text-blue-800 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors"
         >
           ← Voltar aos Colaboradores
         </button>
-
+        
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6 text-white">
             <div className="flex items-center">
-            <img 
-  className="w-24 h-24 rounded-full object-cover border-4 border-white cursor-pointer hover:opacity-90 transition-opacity" 
-  src={selectedProfile.photo} 
-  alt={selectedProfile.name}
-  onClick={() => setSelectedImage(selectedProfile.photo)}
-/>
+              <img 
+                className="w-24 h-24 rounded-full object-cover border-4 border-white cursor-pointer hover:opacity-90 transition-opacity" 
+                src={selectedProfile.photo} 
+                alt={selectedProfile.name}
+                onClick={() => setSelectedImage(selectedProfile.photo)}
+              />
               <div className="ml-6">
                 <h1 className="text-3xl font-bold">{selectedProfile.name}</h1>
                 <p className="text-blue-100 text-lg">{selectedProfile.role}</p>
                 <div className="flex items-center mt-2">
-                  <Star className="w-5 h-5 text-yellow-400" />
+                  <Star 
+                    className={`w-5 h-5 transition-all cursor-pointer ${
+                      favorites.includes(selectedProfile.id) 
+                        ? 'text-yellow-400 fill-current' 
+                        : 'text-yellow-400'
+                    }`}
+                    onClick={() => {
+                      setFavorites(prev => 
+                        prev.includes(selectedProfile.id) 
+                          ? prev.filter(id => id !== selectedProfile.id)
+                          : [...prev, selectedProfile.id]
+                      );
+                    }}
+                  />
                   <span className="ml-1">Passaporte Vectra Validado</span>
                 </div>
               </div>
@@ -543,7 +625,7 @@ const App = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {challenges.map(challenge => (
+          {challenges.map((challenge: any) => (
             <div key={challenge.id} className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200">
               <div className={`h-2 ${
                 challenge.type === 'Técnico' ? 'bg-gradient-to-r from-blue-500 to-blue-600' :
@@ -662,8 +744,8 @@ const App = () => {
 
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-semibold mb-4">Equipe Overview</h2>
-        <div className="space-y-4">
-          {profiles.map(profile => (
+        <div className="space-y-6">
+          {profiles.map((profile: Profile) => (
             <div key={profile.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg space-y-3 sm:space-y-0">
               <div className="flex items-center">
                 <img className="w-10 h-10 rounded-full object-cover" src={profile.photo} alt={profile.name} />
@@ -673,16 +755,16 @@ const App = () => {
                 </div>
               </div>
               <div className="flex justify-center sm:justify-end space-x-6">
-              <div className="text-center">
-  <p className="text-base sm:text-lg font-bold text-blue-600">{profile.technical}%</p>
-  <p className="text-xs text-gray-500">Técnico</p>
-</div>
                 <div className="text-center">
-                  <p className="text-lg font-bold text-green-600">{profile.emotional}%</p>
+                  <p className="text-base sm:text-lg font-bold text-blue-600">{profile.technical}%</p>
+                  <p className="text-xs text-gray-500">Técnico</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-base sm:text-lg font-bold text-emerald-600">{profile.emotional}%</p>
                   <p className="text-xs text-gray-500">Emocional</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-lg font-bold text-purple-600">{profile.organizational}%</p>
+                  <p className="text-base sm:text-lg font-bold text-purple-600">{profile.organizational}%</p>
                   <p className="text-xs text-gray-500">Organizacional</p>
                 </div>
               </div>
@@ -709,53 +791,91 @@ const App = () => {
       <Navbar />
       {renderPage()}
       <ContactButtons />
-  {selectedImage && (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
-      onClick={() => setSelectedImage(null)}
-    >
-      <div
-        className="relative max-w-4xl max-h-screen bg-white rounded-lg overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex">
-          <div className="flex-1">
-            <img
-              src={selectedImage}
-              alt="Foto ampliada"
-              className="w-full h-96 object-cover"
-            />
-          </div>
-          <div className="flex-1 p-6 overflow-y-auto max-h-96">
-            {profiles.find(p => p.photo === selectedImage) && (
-              <div>
-                <h2 className="text-2xl font-bold mb-2">
-                  {profiles.find(p => p.photo === selectedImage)?.name}
-                </h2>
-                ...
+      
+      {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div
+            className="relative max-w-4xl max-h-screen bg-white rounded-lg overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex">
+              <div className="flex-1">
+                <img
+                  src={selectedImage}
+                  alt="Foto ampliada"
+                  className="w-full h-96 object-cover"
+                />
               </div>
-            )}
+              <div className="flex-1 p-6 overflow-y-auto max-h-96">
+                {(() => {
+                  const person = profiles.find(p => p.photo === selectedImage);
+                  if (!person) return null;
+                  
+                  return (
+                    <div>
+                      <h2 className="text-2xl font-bold mb-2 text-gray-900">{person.name}</h2>
+                      <p className="text-gray-600 mb-6">{person.role}</p>
+                      
+                      <div className="space-y-4 mb-6">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-gray-700">Técnico</span>
+                          <span className="text-sm font-bold text-blue-600">{person.technical}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="bg-blue-500 h-2 rounded-full" style={{width: `${person.technical}%`}}></div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-gray-700">Emocional</span>
+                          <span className="text-sm font-bold text-emerald-600">{person.emotional}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="bg-emerald-500 h-2 rounded-full" style={{width: `${person.emotional}%`}}></div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-gray-700">Organizacional</span>
+                          <span className="text-sm font-bold text-purple-600">{person.organizational}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="bg-purple-500 h-2 rounded-full" style={{width: `${person.organizational}%`}}></div>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-3">Evidências</h3>
+                        {person.evidences.map((evidence: string, idx: number) => (
+                          <div key={idx} className="flex items-center text-sm text-gray-600 mb-2">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                            {evidence}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 bg-white rounded-full p-2 text-gray-800 hover:bg-gray-100"
+            >
+              ✕
+            </button>
           </div>
         </div>
-        <button
-          onClick={() => setSelectedImage(null)}
-          className="absolute top-4 right-4 bg-white rounded-full p-2 text-gray-800 hover:bg-gray-100"
-        >
-          ✕
-        </button>
-      </div>
-    </div>
-  )}
-  
-      
+      )}
       <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             <div className="md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
-              <div className="rounded-lg">
-  <img src="/imagens/minha-logo.jpeg" alt="Logo" className="w-6 h-6 object-contain" />
-</div>
+                <div className="rounded-lg">
+                  <img src="/imagens/minha-logo.jpeg" alt="Logo" className="w-6 h-6 object-contain" />
+                </div>
                 <div className="flex flex-col">
                   <span className="text-xl font-bold text-white">Vectra</span>
                   <span className="text-xs text-gray-400 -mt-1">Platform</span>
@@ -788,10 +908,44 @@ const App = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Plataforma</h3>
               <ul className="space-y-3 text-gray-400">
-                <li><button onClick={() => setCurrentPage('profiles')} className="hover:text-white transition-colors">Talentos</button></li>
-                <li><button onClick={() => setCurrentPage('challenges')} className="hover:text-white transition-colors">Desafios</button></li>
-                <li><button onClick={() => setCurrentPage('dashboard')} className="hover:text-white transition-colors">Dashboard</button></li>
-                <button className="hover:text-white transition-colors text-left">Empresas</button>
+                <li>
+                  <button 
+                    onClick={() => {
+                      setCurrentPage('profiles');
+                      window.history.pushState({}, '', '/profiles');
+                    }} 
+                    className="hover:text-white transition-colors"
+                  >
+                    Talentos
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => {
+                      setCurrentPage('challenges');
+                      window.history.pushState({}, '', '/challenges');
+                    }} 
+                    className="hover:text-white transition-colors"
+                  >
+                    Desafios
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => {
+                      setCurrentPage('dashboard');
+                      window.history.pushState({}, '', '/dashboard');
+                    }} 
+                    className="hover:text-white transition-colors"
+                  >
+                    Dashboard
+                  </button>
+                </li>
+                <li>
+                  <button className="hover:text-white transition-colors text-left">
+                    Empresas
+                  </button>
+                </li>
               </ul>
             </div>
             
