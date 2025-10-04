@@ -36,79 +36,140 @@ const App = () => {
 
   const profiles = [
     {
-      id: 1,
-      name: "Sânio Trindade",
-      role: "Desenvolvedor Frontend",
-      photo: "/imagens/sanio.jpeg",
-      technical: 85,
-      emotional: 92,
-      organizational: 78,
-      tags: ["Validado em ambiente real - TechCorp", "Desafio Público Vectra"],
-      evidences: ["Projeto React complexo", "Feedback 360°", "Microdesafios semanais"]
-    },
-    {
-      id: 2,
-      name: "Felipe Briguente",
-      role: "Analista de Dados",
-      photo: "/imagens/felipe.jpeg",
-      technical: 90,
-      emotional: 75,
-      organizational: 88,
-      tags: ["Validado em processo seletivo - contratado", "Desenvolvido em jornada interna"],
-      evidences: ["Dashboard Power BI", "Análise de KPIs", "Automação de relatórios"]
-    },
-    {
-      id: 3,
-      name: "Jamily Silva",
-      role: "Gerente de Projetos",
-      photo: "/imagens/jamily.jpeg",
-      technical: 70,
-      emotional: 95,
-      organizational: 93,
-      tags: ["Validado em ambiente real - InnovaCorp", "Feedback 360° completo"],
-      evidences: ["Gestão de equipe 15 pessoas", "Projeto entregue no prazo", "Certificação PMP"]
-    },
-    {
-      id: 4,
-      name: "Lucas Fernandes",
-      role: "Gerente de Projetos",
-      photo: "/imagens/lucas.jpeg",
-      technical: 70,
-      emotional: 95,
-      organizational: 93,
-      tags: ["Validado em ambiente real - InnovaCorp", "Feedback 360° completo"],
-      evidences: ["Gestão de equipe 15 pessoas", "Projeto entregue no prazo", "Certificação PMP"]
-    }
+          id: 1,
+          name: "Sânio Trindade",
+          role: "Tech Lead & Arquiteto de Software",
+          photo: "/imagens/sanio.jpeg",
+          technical: 95,
+          emotional: 92,
+          organizational: 88,
+          tags: ["Validado em ambiente real - TechCorp", "Líder Técnico Certificado"],
+          evidences: [
+            "Liderou arquitetura de plataforma com 200k+ usuários ativos",
+            "Mentor técnico de 8 desenvolvedores sênior e pleno",
+            "Responsável por decisões tecnológicas estratégicas da empresa"
+          ]
+        },
+        {
+          id: 2,
+          name: "Felipe Briguente",
+          role: "Analista de Dados",
+          photo: "/imagens/felipe.jpeg",
+          technical: 90,
+          emotional: 75,
+          organizational: 88,
+          tags: ["Validado em processo seletivo - contratado", "Desenvolvido em jornada interna"],
+          evidences: [
+            "Criou dashboards Power BI que economizaram 35h/mês",
+            "Automatizou análise de KPIs aumentando precisão em 28%",
+            "Certificação Microsoft Power BI Data Analyst Associate"
+          ]
+        },
+        {
+          id: 3,
+          name: "Jamily Silva",
+          role: "Gerente de Projetos",
+          photo: "/imagens/jamily.jpeg",
+          technical: 70,
+          emotional: 95,
+          organizational: 93,
+          tags: ["Validado em ambiente real - InnovaCorp", "Feedback 360° completo"],
+          evidences: [
+            "Liderou equipe de 15 pessoas em projeto multidisciplinar",
+            "100% de projetos entregues no prazo nos últimos 12 meses",
+            "Certificação PMP - Project Management Professional"
+          ]
+        },
+        {
+          id: 4,
+          name: "Lucas Fernandes",
+          role: "Designer UX/UI Sênior",
+          photo: "/imagens/lucas.jpeg",
+          technical: 88,
+          emotional: 85,
+          organizational: 80,
+          tags: ["Validado em ambiente real - DesignHub", "Portfolio premiado 2024"],
+          evidences: [
+            "Redesign que aumentou conversão em 60% e retenção em 45%",
+            "Conduziu 40+ testes de usabilidade e pesquisas com usuários",
+            "Prêmio Best UX Design 2024 - categoria B2B"
+          ]
+        },
+        {
+          id: 5,
+          name: "Guilherme Costa",
+          role: "Desenvolvedor Backend Sênior",
+          photo: "/imagens/guilherme.jpeg",
+          technical: 92,
+          emotional: 78,
+          organizational: 85,
+          tags: ["Validado em ambiente real - TechStart", "AWS Solutions Architect"],
+          evidences: [
+            "Arquitetou API REST processando 3M+ requisições/dia",
+            "Reduziu custos de infraestrutura em 45% com otimizações",
+            "Certificações AWS Solutions Architect + Developer Associate"
+          ]
+        },
+        {
+          id: 6,
+          name: "Alexandra Maria",
+          role: "Head de Marketing Digital",
+          photo: "/imagens/alerrandra.jpeg",
+          technical: 82,
+          emotional: 93,
+          organizational: 90,
+          tags: ["Validado em ambiente real - MarketCorp", "ROI +180% comprovado"],
+          evidences: [
+            "Liderou estratégia que gerou R$ 4.2M com ROI de 185%",
+            "Gerencia equipe de 6 especialistas em marketing",
+            "Certificações avançadas Google Ads, Meta e HubSpot"
+          ]
+        }
+    
   ];
 
   const challenges = [
     {
       id: 1,
-      title: "Desafio de Análise de Dados",
+      title: "Análise de Dados Avançada",
       type: "Técnico",
-      description: "Analise uma planilha de vendas e crie um relatório com insights",
+      description: "Analise dataset de vendas com 50k registros, identifique padrões e crie dashboard interativo",
       duration: "2 horas"
     },
     {
       id: 2,
-      title: "Resolução de Conflitos",
+      title: "Mediação de Conflitos",
       type: "Emocional",
-      description: "Simule a mediação de um conflito entre colegas de trabalho",
+      description: "Resolva conflito entre equipes de produto e desenvolvimento com prazos conflitantes",
       duration: "45 min"
     },
     {
       id: 3,
-      title: "Planejamento Estratégico",
+      title: "Planejamento Ágil de Sprint",
       type: "Organizacional",
-      description: "Organize um cronograma de projeto com recursos limitados",
+      description: "Monte cronograma de sprint com 15 tasks, 5 devs e prazo de 2 semanas",
       duration: "1.5 horas"
     },
     {
       id: 4,
-      title: "Gestão de Recursos",
+      title: "Code Review Challenge",
+      type: "Técnico",
+      description: "Revise código React/TypeScript e sugira melhorias de performance e boas práticas",
+      duration: "1 hora"
+    },
+    {
+      id: 5,
+      title: "Gestão de Crise",
+      type: "Emocional",
+      description: "Lidere equipe sob alta pressão com cliente insatisfeito e deadline em 48h",
+      duration: "1 hora"
+    },
+    {
+      id: 6,
+      title: "Otimização de Recursos",
       type: "Organizacional",
-      description: "Otimize a alocação de recursos em um projeto multi-equipes",
-      duration: "2.5 horas"
+      description: "Realoque 10 profissionais em 4 projetos maximizando produtividade e skills",
+      duration: "2 horas"
     }
   ];
 
