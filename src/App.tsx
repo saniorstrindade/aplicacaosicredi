@@ -67,7 +67,7 @@ const App = () => {
         },
         {
           id: 3,
-          name: "Jamily Silva",
+          name: "Jamilly Ribeiro",
           role: "Gerente de Projetos",
           photo: "/imagens/jamily.jpeg",
           technical: 70,
@@ -200,7 +200,7 @@ const App = () => {
         <MessageCircle className="w-6 h-6 group-hover:animate-pulse" />
       </button>
       <button
-        onClick={() => window.open('https://instagram.com/vectraplatform', '_blank')}
+        onClick={() => window.open('https://www.instagram.com/vectra.rs?igsh=end4d2trczZwN2g4', '_blank')}
         className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group"
         title="Instagram"
       >
@@ -954,7 +954,7 @@ const App = () => {
                   <MessageCircle className="w-5 h-5" />
                 </button>
                 <button
-                  onClick={() => window.open('https://instagram.com/vectraplatform', '_blank')}
+                  onClick={() => window.open('https://www.instagram.com/vectra.rs?igsh=end4d2trczZwN2g4', '_blank')}
                   className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 p-3 rounded-lg transition-colors"
                   title="Instagram"
                 >
@@ -1015,20 +1015,20 @@ const App = () => {
               <ul className="space-y-3 text-gray-400">
                 <li className="flex items-center">
                   <Mail className="w-4 h-4 mr-2" />
-                  contato@vectra.com.br
+                  vectracontratacao@gmail.com
                 </li>
                 <li className="flex items-center">
                   <Phone className="w-4 h-4 mr-2" />
-                  (32) 99999-9999
+                  (32) 99156-9811
                 </li>
-                <li className="flex items-center">
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  WhatsApp
+                <li className="flex items-center cursor-pointer hover:text-white transition-colors" onClick={() => window.open('https://wa.me/5532991569811', '_blank')}>
+                 <MessageCircle className="w-4 h-4 mr-2" />
+                 (32) 99156-9811
                 </li>
                 <li className="flex items-center">
                   <Instagram className="w-4 h-4 mr-2" />
-                  @vectraplatform
-                </li>
+                 @vectra.rs
+              </li>
               </ul>
             </div>
           </div>
