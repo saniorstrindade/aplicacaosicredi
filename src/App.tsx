@@ -1036,7 +1036,7 @@ const App = () => {
           <div className="border-t border-gray-800 pt-8 mt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-400 text-sm">
-                © 2024 Vectra Platform. Todos os direitos reservados.
+                © 2025 Vectra Platform. Todos os direitos reservados.
               </p>
               <p className="text-gray-400 text-sm mt-4 md:mt-0">
                 "Você não precisa dizer quem é. É só mostrar."
